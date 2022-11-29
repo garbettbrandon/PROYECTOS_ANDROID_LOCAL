@@ -1,5 +1,6 @@
 package com.example.agenda;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
         notifyDataSetChanged();
     }
 
-
     @Override
     public UserListAdapter.MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.list_element, parent, false);
@@ -39,9 +39,23 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvFirstName.setText(this.userList.get(position).firstName);
         holder.tvLastName.setText(this.userList.get(position).lastName);
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppDataBase db = Room.databaseBuilder(holder.tvFirstName.getContext(),
+                        AppDataBase.class, "room_db").allowMainThreadQueries().build();
+                UserDao userDao = db.userDao();
+                // this is to delete the record from room database
+                userDao.Delete(userList.get(position));
+                // this is to delete the record from Array List which is the source of recview data
+                userList.remove(position);
+                //update the fresh list of ArrayList data to recview
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -50,10 +64,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView tvFirstName;
-        TextView tvLastName;
-        ImageButton btnCall;
-        ImageButton btnEdit;
+        TextView tvFirstName, tvLastName;
+        ImageButton btnDelete, btnCall, btnEdit;
 
         public MyViewHolder(View view) {
             super(view);
@@ -61,6 +73,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
             tvLastName = view.findViewById(R.id.phoneTv);
             btnCall = view.findViewById(R.id.callbtn);
             btnEdit = view.findViewById(R.id.editbtn);
+            btnDelete = view.findViewById(R.id.delbtn);
         }
     }
 }
