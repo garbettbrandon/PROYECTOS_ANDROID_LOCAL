@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         calcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    if (num1.getText().equals("") || num2.getText().equals("") || finalOperacion.equals("")){
+                        //Toast.makeText(this ,"Has dejado un numero vacio",Toast.LENGTH_LONG).show();
+                    }
                     lanzarActivity(num1.getText(), num2.getText(), finalOperacion);
                 }
             }
