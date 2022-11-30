@@ -40,22 +40,20 @@ public class MainActivity extends AppCompatActivity {
         }else if (div.isChecked()){
             operacion = String.valueOf(div);
         }
-
         String finalOperacion = operacion;
-
         calcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if (num1.getText().equals("") || num2.getText().equals("") || finalOperacion.equals("")){
-                        //Toast.makeText(this ,"Has dejado un numero vacio",Toast.LENGTH_LONG).show();
-                    }
-                    lanzarActivity(num1.getText(), num2.getText(), finalOperacion);
+                if (num1.getText().equals("") || num2.getText().equals("") || finalOperacion.equals("")){
+                    //Toast.makeText(this,"No has introducido los datos suficientes",Toast.LENGTH_LONG).show();
                 }
+                lanzarActivity();
             }
-        );
+        });
     }
-    private void lanzarActivity(Editable num1, Editable num2, String operacion) {
+    private void lanzarActivity() {
         Intent lanzar = new Intent(this,ResultadoActivity.class);
+        lanzar.putExtra(String.valueOf(num1), String.valueOf(num2));
         startActivity(lanzar);
     }
 }

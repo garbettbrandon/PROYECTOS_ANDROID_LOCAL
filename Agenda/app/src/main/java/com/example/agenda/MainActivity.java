@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(new Intent(MainActivity.this, AddNewUserActivity.class), 100);
             }
         });
-
         initRecyclerView();
         loadUserList();
     }

@@ -39,17 +39,17 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull @NotNull UserListAdapter.MyViewHolder holder, int position) {
         holder.tvFirstName.setText(this.userList.get(position).firstName);
         holder.tvLastName.setText(this.userList.get(position).lastName);
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppDataBase db = Room.databaseBuilder(holder.tvFirstName.getContext(),
-                        AppDataBase.class, "room_db").allowMainThreadQueries().build();
+                        AppDataBase.class, "DB_NAME").allowMainThreadQueries().build();
                 UserDao userDao = db.userDao();
                 // this is to delete the record from room database
-                userDao.Delete(userList.get(position));
+                userDao.deleteById(userList.get(position).getUid());
                 // this is to delete the record from Array List which is the source of recview data
                 userList.remove(position);
                 //update the fresh list of ArrayList data to recview
