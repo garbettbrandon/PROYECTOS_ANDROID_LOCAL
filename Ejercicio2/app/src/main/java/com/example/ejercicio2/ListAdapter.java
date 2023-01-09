@@ -13,6 +13,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
 
     private Context context;
     private List <Producto> productList;
+
     public ListAdapter(Context context) {
         this.context = context;
     }
